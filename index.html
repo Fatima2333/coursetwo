@@ -44,9 +44,9 @@
                         </div>
                     </section>
 
-                    <div class="alert alert-success text-center" role="alert">
-                        A simple success alert—check it out!
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div v-if="shouldShowSubmissionAlert" class="alert alert-success text-center" role="alert">
+                        Your Order has been submitted successfully!
+                        <button v-on:click="unshowSubmissionAlert" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
 
                     <div class="album py-5 bg-light">
@@ -225,6 +225,13 @@
                 removeFromCart: function (cartLesson, index) {
                     this.cart = this.cart.filter((lesson, lessonIndex) => lessonIndex != index);
                     cartLesson.spaces = cartLesson.spaces + 1;
+                },
+                showSubmissionAlert: function () {
+                    this.submissionAlert = true;
+                    this.cart = [];
+                },
+                unshowSubmissionAlert: function () {
+                    return this.submissionAlert = false;
                 }
             },
             computed: {
@@ -271,8 +278,8 @@
                 canShowCheckoutButton: function () {
                     return /^\d+$/.test(this.checkout.phone) && /^[a-zA-Z]+$/.test(this.checkout.name) && this.cart.length > 0;
                 },
-                showSubmissionAlert: function () {
-                    return this.submissionAlert = true;
+                shouldShowSubmissionAlert: function () {
+                    return this.submissionAlert == true;
                 }
             }
         });
