@@ -33,6 +33,6 @@ const lessons = [
         currency: "$",
         price : 400,
         spaces : 5,
-        image: "https://www.imperial.ac.uk/ImageCropToolT4/imageTool/uploaded-images/newseventsimage_1537198485721_mainnews2012_x1.jpg",
+        image: "https://thumbs.dreamstime.com/b/vector-black-board-concept-biology-subject-line-round-icons-school-lesson-microscope-anatomy-cell-studies-174052527.jpg",
     },
 ];
