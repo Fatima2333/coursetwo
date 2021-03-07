@@ -47,7 +47,7 @@
                     <div class="album py-5 bg-light">
                         <div class="container">
                             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                                <div class="col" v-for="lesson in cart">
+                                <div class="col" v-for="(lesson, index) in cart">
                                     <div class="card shadow-sm">
                                         <img class="bd-placeholder-img card-img-top" v-bind:src="lesson.image" width="100%" height="225" />
                             
@@ -60,7 +60,7 @@
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <small class="text-muted">{{lesson.currency}} {{lesson.price}}</small>
                                                 <div class="btn-group">
-                                                    <button v-on:click="addTocart(lesson)" type="button" class="btn btn-sm btn-outline-secondary" v-if="canAddToCart(lesson)">remove</button>
+                                                    <button v-on:click="removeFromCart(lesson, index)" type="button" class="btn btn-sm btn-outline-secondary">remove</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -74,34 +74,23 @@
                     <div id="completeShopping" class="container text-center">
                         <form class="row row-cols-lg-auto g-3 align-items-center">
                             <div class="col-12">
-                              <label class="visually-hidden" for="inlineFormInputGroupUsername">Username</label>
+                              <label class="visually-hidden" for="inlineFormInputGroupUsername">Name</label>
                               <div class="input-group">
-                                <div class="input-group-text">@</div>
-                                <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
+                                <div class="input-group-text">Name</div>
+                                <input v-model="checkout.name" type="text" class="form-control" id="inlineFormInputGroupName" placeholder="Name">
                               </div>
                             </div>
-                          
+
                             <div class="col-12">
-                              <label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
-                              <select class="form-select" id="inlineFormSelectPref">
-                                <option selected>Choose...</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                              </select>
-                            </div>
-                          
-                            <div class="col-12">
-                              <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="inlineFormCheck">
-                                <label class="form-check-label" for="inlineFormCheck">
-                                  Remember me
-                                </label>
+                                <label class="visually-hidden" for="inlineFormInputGroupUsername">Phone</label>
+                                <div class="input-group">
+                                  <div class="input-group-text">Phone</div>
+                                  <input v-model="checkout.phone" type="tel" class="form-control" id="inlineFormInputGroupPhone" placeholder="Phone">
+                                </div>
                               </div>
-                            </div>
                           
                             <div class="col-12">
-                              <button type="submit" class="btn btn-primary">Submit</button>
+                              <button type="submit" class="btn btn-primary">Checkout</button>
                             </div>
                           </form>
                     </div>
@@ -186,10 +175,10 @@
             <footer class="text-muted py-5">
                 <div class="container">
                     <p class="float-end mb-1">
-                    <a href="#">Yoo</a>
+                    <a href="#">School Hunt</a>
                     </p>
-                    <p class="mb-1">Yaaaa</p>
-                    <p class="mb-0">Gabriel <a href="/"> HMMMM</a> Ahhh <a href="/docs/5.0/getting-started/introduction/ ">Toooooo</a>.</p>
+                    <p class="mb-1">Find after school courses and activities nearest to you</p>
+                    <p class="mb-0">Individual Course work - Gabriel Nwogu</p>
                 </div>
             </footer>
         </div>
@@ -206,7 +195,11 @@
                     sort: "none",
                     direction: "none"
                 },
-                checkoutPage: false
+                checkoutPage: false,
+                checkout: {
+                    name: "",
+                    phone: "",
+                }
             },
             methods: {
                 addTocart: function(lesson) {
@@ -222,6 +215,10 @@
                 },
                 unshowCheckoutPage: function () {
                     return this.checkoutPage = false;
+                },
+                removeFromCart: function (cartLesson, index) {
+                    this.cart = this.cart.filter((lesson, lessonIndex) => lessonIndex != index);
+                    cartLesson.spaces = cartLesson.spaces + 1;
                 }
             },
             computed: {
