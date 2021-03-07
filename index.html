@@ -44,6 +44,11 @@
                         </div>
                     </section>
 
+                    <div class="alert alert-success text-center" role="alert">
+                        A simple success alert—check it out!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
                     <div class="album py-5 bg-light">
                         <div class="container">
                             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -90,7 +95,7 @@
                               </div>
                           
                             <div class="col-12">
-                              <button type="submit" class="btn btn-primary" v-if="canShowCheckoutButton">Checkout</button>
+                              <button v-on:click="showSubmissionAlert" type="button" class="btn btn-primary" v-if="canShowCheckoutButton">Checkout</button>
                             </div>
                           </form>
                     </div>
@@ -199,7 +204,8 @@
                 checkout: {
                     name: null,
                     phone: null,
-                }
+                },
+                submissionAlert: false
             },
             methods: {
                 addTocart: function(lesson) {
@@ -259,11 +265,14 @@
                 shoppingCartCount: function () {
                     return this.cart.length;
                 },
-                canShowCheckoutPage: function() {
+                canShowCheckoutPage: function () {
                     return this.checkoutPage == true;
                 },
                 canShowCheckoutButton: function () {
                     return /^\d+$/.test(this.checkout.phone) && /^[a-zA-Z]+$/.test(this.checkout.name) && this.cart.length > 0;
+                },
+                showSubmissionAlert: function () {
+                    return this.submissionAlert = true;
                 }
             }
         });
