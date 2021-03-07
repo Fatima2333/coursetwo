@@ -90,7 +90,7 @@
                               </div>
                           
                             <div class="col-12">
-                              <button type="submit" class="btn btn-primary">Checkout</button>
+                              <button type="submit" class="btn btn-primary" v-if="canShowCheckoutButton">Checkout</button>
                             </div>
                           </form>
                     </div>
@@ -197,8 +197,8 @@
                 },
                 checkoutPage: false,
                 checkout: {
-                    name: "",
-                    phone: "",
+                    name: null,
+                    phone: null,
                 }
             },
             methods: {
@@ -261,6 +261,9 @@
                 },
                 canShowCheckoutPage: function() {
                     return this.checkoutPage == true;
+                },
+                canShowCheckoutButton: function () {
+                    return /^\d+$/.test(this.checkout.phone) && /^[a-zA-Z]+$/.test(this.checkout.name) && this.cart.length > 0;
                 }
             }
         });
