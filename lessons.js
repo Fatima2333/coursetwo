@@ -24,7 +24,7 @@ const lessons = [
         currency: "$",
         price : 300,
         spaces : 5,
-        image: "https://www.imperial.ac.uk/ImageCropToolT4/imageTool/uploaded-images/newseventsimage_1537198485721_mainnews2012_x1.jpg",
+        image: "https://allschool.com.ng/wp-content/uploads/2018/11/jamb-subject-combination-for-physics.jpg",
     },
     {
         id: 4,
