@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gabriel Nwogu</title>
+        <!-- Bootstrap CSS library -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <!-- Vue JS -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <!-- Font awesome icon -->
+        <script src="https://kit.fontawesome.com/c775a5dfc8.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        <div id="app">
+            <header>
+                <div class="navbar fixed-top navbar-dark bg-dark shadow-sm">
+                    <div class="container">
+                        <a href="#" class="navbar-brand d-flex align-items-center">
+                        <strong v-text="sitename"></strong>
+                        </a>
+                        <div v-if="canShowShoppingCart" class="navbar d-flex align-items-right text-white btn btn-md" v-on:click="showCheckoutPage">
+                            <i class="fas fa-shopping-cart"></i> <strong>Shopping Cart - {{ shoppingCartCount }}</strong>
+                        </div>
+                        <div v-if="canShowCheckoutPage" class="navbar d-flex align-items-right text-white btn btn-md" v-on:click="unshowCheckoutPage">
+                            <i class="fas fa-long-arrow-alt-left"></i> <strong> Go Back</strong>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+                <!-- Checkout Page -->
+                <main v-if="canShowCheckoutPage">
+                    <section class="py-5 text-center container">
+                        <div class="row py-lg-5">
+                            <div class="col-lg-6 col-md-8 mx-auto">
+                                <h1 class="fw-light">School Hunt - Shopping Cart</h1>
+                                <p class="lead text-muted">Find the best after school activity and courses for students of all classes</p>
+                                <p>
+                                    <a href="#completeShopping" class="btn btn-primary my-2">Complete Checkout</a>
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="album py-5 bg-light">
+                        <div class="container">
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                                <div class="col" v-for="lesson in cart">
+                                    <div class="card shadow-sm">
+                                        <img class="bd-placeholder-img card-img-top" v-bind:src="lesson.image" width="100%" height="225" />
+                            
+                                        <div class="card-body" id="startShopping">
+                                            <div class="row">
+                                                <div class="col-9">  <p class="card-text">{{ lesson.subject }}</p> </div>
+                                                <div class="col-3">  <p class="card-text alight-right">{{ lesson.location }}</p> </div>
+                                            </div>
+                                            <p class="card-text">{{ lesson.spaces }} Spaces Left</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">{{lesson.currency}} {{lesson.price}}</small>
+                                                <div class="btn-group">
+                                                    <button v-on:click="addTocart(lesson)" type="button" class="btn btn-sm btn-outline-secondary" v-if="canAddToCart(lesson)">remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="completeShopping" class="container text-center">
+                        <form class="row row-cols-lg-auto g-3 align-items-center">
+                            <div class="col-12">
+                              <label class="visually-hidden" for="inlineFormInputGroupUsername">Username</label>
+                              <div class="input-group">
+                                <div class="input-group-text">@</div>
+                                <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
+                              </div>
+                            </div>
+                          
+                            <div class="col-12">
+                              <label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
+                              <select class="form-select" id="inlineFormSelectPref">
+                                <option selected>Choose...</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                              </select>
+                            </div>
+                          
+                            <div class="col-12">
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="inlineFormCheck">
+                                <label class="form-check-label" for="inlineFormCheck">
+                                  Remember me
+                                </label>
+                              </div>
+                            </div>
+                          
+                            <div class="col-12">
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                          </form>
+                    </div>
+                </main>
+
+                <!-- Shopping Cart Page -->
+                <main v-else>
+                    <section class="py-5 text-center container">
+                        <div class="row py-lg-5">
+                            <div class="col-lg-6 col-md-8 mx-auto">
+                                <h1 class="fw-light">School Hunt - Shopping Page</h1>
+                                <p class="lead text-muted">Find the best after school activity and courses for students of all classes</p>
+                                <p>
+                                <a href="#startShopping" class="btn btn-primary my-2">Start Shopping</a>
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="album py-5 bg-light">
+                        <div class="container">
+
+                            <nav class="navbar navbar-light bg-light">
+                                <div class="container-fluid">
+                                    <form class="d-flex">
+                                        <div class="form-check form-check-inline">
+                                            <input v-model="filter.sort" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="subject">
+                                            <label class="form-check-label" for="inlineRadio1">Subject</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input v-model="filter.sort" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="location">
+                                            <label class="form-check-label" for="inlineRadio2">Location</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input v-model="filter.sort" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="price">
+                                            <label class="form-check-label" for="inlineRadio3">Price</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input v-model="filter.sort" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="spaces">
+                                            <label class="form-check-label" for="inlineRadio4">Available</label>
+                                        </div>
+                                    </form>
+                                    <form class="d-flex">
+                                        <div class="form-check form-check-inline">
+                                            <input v-model="filter.direction" class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio1" value="asc">
+                                            <label class="form-check-label" for="inlineRadio1">Ascending</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input v-model="filter.direction" class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio2" value="des">
+                                            <label class="form-check-label" for="inlineRadio2">Descending</label>
+                                        </div>
+                                    </form>
+                                </div>
+                            </nav>
+                            
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                                <div class="col" v-for="lesson in filteredLessons">
+                                    <div class="card shadow-sm">
+                                        <img class="bd-placeholder-img card-img-top" v-bind:src="lesson.image" width="100%" height="225" />
+                            
+                                        <div class="card-body" id="startShopping">
+                                            <div class="row">
+                                                <div class="col-9">  <p class="card-text">{{ lesson.subject }}</p> </div>
+                                                <div class="col-3">  <p class="card-text alight-right">{{ lesson.location }}</p> </div>
+                                            </div>
+                                            <p class="card-text">{{ lesson.spaces }} Spaces Left</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">{{lesson.currency}} {{lesson.price}}</small>
+                                                <div class="btn-group">
+                                                <button v-on:click="addTocart(lesson)" type="button" class="btn btn-sm btn-outline-secondary" v-if="canAddToCart(lesson)">add to cart</button>
+                                                </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </main>
+
+            <footer class="text-muted py-5">
+                <div class="container">
+                    <p class="float-end mb-1">
+                    <a href="#">Yoo</a>
+                    </p>
+                    <p class="mb-1">Yaaaa</p>
+                    <p class="mb-0">Gabriel <a href="/"> HMMMM</a> Ahhh <a href="/docs/5.0/getting-started/introduction/ ">Toooooo</a>.</p>
+                </div>
+            </footer>
+        </div>
+
+        <script src="lessons.js"></script>
+        <script>
+        var webstore = new Vue({
+            el: '#app',
+            data: {
+                sitename: 'School Hunt',
+                lessons: lessons,
+                cart: [],
+                filter: {
+                    sort: "none",
+                    direction: "none"
+                },
+                checkoutPage: false
+            },
+            methods: {
+                addTocart: function(lesson) {
+                    this.cart.push(lesson);
+                    lesson.spaces = lesson.spaces - 1;
+                    console.log(this.cart);
+                },
+                canAddToCart: function(lesson) {
+                    return lesson.spaces > 0;
+                },
+                showCheckoutPage: function () {
+                    return this.checkoutPage = true;
+                },
+                unshowCheckoutPage: function () {
+                    return this.checkoutPage = false;
+                }
+            },
+            computed: {
+                filteredLessons: function() {
+                    const sort = this.filter.sort;
+                    const direction = this.filter.direction;
+
+                    const sortString = function (a, b, property, direction) {
+                        var nameA = a[property].toUpperCase();
+                        var nameB = b[property].toUpperCase();
+
+                        if (nameA < nameB) {
+                            return direction == "asc" ? -1 : 1;
+                        }
+                        if (nameA > nameB) {
+                            return direction == "asc" ? 1 : -1;
+                        }
+
+                        return 0;
+                    }
+
+                    if (sort == "none" && direction == "none") {
+                        return this.lessons;
+                    }
+
+                    return this.lessons.sort(function (lessonA, lessonB) {
+
+                        if (["subject", "location"].includes(sort)) {
+                            return sortString(lessonA, lessonB, sort, direction);
+                        }
+
+                        return direction == "des" ? lessonB[sort] - lessonA[sort] : lessonA[sort] - lessonB[sort];
+                    });
+                },
+                canShowShoppingCart: function () {
+                    return this.cart.length > 0 && this.checkoutPage == false;
+                },
+                shoppingCartCount: function () {
+                    return this.cart.length;
+                },
+                canShowCheckoutPage: function() {
+                    return this.checkoutPage == true;
+                }
+            }
+        });
+        </script>
+    </body>
+</html>

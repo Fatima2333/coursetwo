@@ -1,0 +1,38 @@
+const lessons = [
+    {
+        id: 1,
+        subject: "Chemistry",
+        location: "Sweeden",
+        currency: "$",
+        price : 100,
+        spaces : 5,
+        image: "https://www.imperial.ac.uk/ImageCropToolT4/imageTool/uploaded-images/newseventsimage_1537198485721_mainnews2012_x1.jpg",
+    },
+    {
+        id: 2,
+        subject: "English",
+        location: "Nigeria",
+        currency: "$",
+        price : 200,
+        spaces : 5,
+        image: "https://www.imperial.ac.uk/ImageCropToolT4/imageTool/uploaded-images/newseventsimage_1537198485721_mainnews2012_x1.jpg",
+    },
+    {
+        id: 3,
+        subject: "Physics",
+        location: "Ghana",
+        currency: "$",
+        price : 300,
+        spaces : 5,
+        image: "https://www.imperial.ac.uk/ImageCropToolT4/imageTool/uploaded-images/newseventsimage_1537198485721_mainnews2012_x1.jpg",
+    },
+    {
+        id: 4,
+        subject: "Biology",
+        location: "London",
+        currency: "$",
+        price : 400,
+        spaces : 5,
+        image: "https://www.imperial.ac.uk/ImageCropToolT4/imageTool/uploaded-images/newseventsimage_1537198485721_mainnews2012_x1.jpg",
+    },
+];
